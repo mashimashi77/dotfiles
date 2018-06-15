@@ -3,7 +3,7 @@ setopt IGNOREEOF
 
 # 日本語を使用
 export LANG=ja_JP.UTF-8
-
+export GIT_PAGER="LESSCHARSET=utf-8 less"
 # パスを追加したい場合
 export PATH="$HOME/bin:$PATH"
 
