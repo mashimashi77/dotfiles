@@ -1,1 +1,0 @@
-/Users/mashi/dotfiles/.vim
