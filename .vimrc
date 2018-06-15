@@ -161,3 +161,5 @@ set wrap
 
 " 検索時に最後まで移動したら最初に戻る
 set wrapscan
+" deleteキーの対応
+noremap!  
