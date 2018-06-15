@@ -1,18 +1,11 @@
 #!/bin/bash -xeu
 
 if [ ! -d tmux ]; then
-    git clone https://github.com/tmux/tmux.git
+  wget https://github.com/tmux/tmux/releases/download/2.7/tmux-2.7.tar.gz
 fi
 
-cd tmux
+tar -xvf tmux-2.7.tar.gz
+cd tmux-2.7
 
-# checkout latest tag
-git checkout $(git tag | sort -V | tail -n 1)
-
-sh autogen.sh
-
-./configure
-
-make -j4
-
-sudo make install
+./configure && make
+make install
