@@ -1,64 +1,163 @@
-" setting
-"文字コードをUFT-8に設定
-set fenc=utf-8
-" バックアップファイルを作らない
-set nobackup
-" スワップファイルを作らない
-set noswapfile
-" 編集中のファイルが変更されたら自動で読み直す
+" vimrc に以下のように追記
+
+" プラグインが実際にインストールされるディレクトリ
+let s:dein_dir = expand('~/.cache/dein')
+" dein.vim 本体
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+
+" dein.vim がなければ github から落としてくる
+if &runtimepath !~# '/dein.vim'
+  if !isdirectory(s:dein_repo_dir)
+    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+  endif
+  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
+endif
+
+" 設定開始
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir)
+
+  " プラグインリストを収めた TOML ファイル
+  " 予め TOML ファイル（後述）を用意しておく
+  let g:rc_dir    = expand('~/.vim/rc')
+  let s:toml      = g:rc_dir . '/dein.toml'
+  let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'
+
+  " TOML を読み込み、キャッシュしておく
+  call dein#load_toml(s:toml,      {'lazy': 0})
+  call dein#load_toml(s:lazy_toml, {'lazy': 1})
+
+  " 設定終了
+  call dein#end()
+  call dein#save_state()
+endif
+
+" もし、未インストールものものがあったらインストール
+if dein#check_install()
+  call dein#install()
+endif
+
+
+"setting
+" 改行時に自動でインデントを行なう
+set autoindent
+
+" ファイルが外部で変更された際に自動で読み込む
 set autoread
-" バッファが編集中でもその他のファイルを開けるように
-set hidden
-" 入力中のコマンドをステータスに表示する
-set showcmd
 
-noremap!  
+" バックスペースの影響範囲を設定する
+set backspace=indent,eol,start
 
-" 見た目系
-" 行番号を表示
-set number
-" 現在の行を強調表示
+" OSとクリップボードを共有する
+set clipboard=unnamed,autoselect
+
+" 強調表示する列を設定する
+set colorcolumn=80
+
+" 未保存ファイルの終了時に保存確認を行なう
+set confirm
+
+" カーソル行を強調表示する
 set cursorline
-" 現在の行を強調表示（縦）
-set cursorcolumn
-" 行末の1文字先までカーソルを移動できるように
-set virtualedit=onemore
-" インデントはスマートインデント
-set smartindent
-" ビープ音を可視化
-set visualbell
-" 括弧入力時の対応する括弧を表示
-set showmatch
-" ステータスラインを常に表示
-set laststatus=2
-" コマンドラインの補完
-set wildmode=list:longest
-" 折り返し時に表示行単位での移動できるようにする
-nnoremap j gj
-nnoremap k gk
 
+" 文字コードを設定する
+set encoding=utf8
+set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis
 
-" Tab系
-" 不可視文字を可視化(タブが「▸-」と表示される)
-set list listchars=tab:\▸\-
-" Tab文字を半角スペースにする
+" タブの代わりにスペースを挿入する
 set expandtab
-" 行頭以外のTab文字の表示幅（スペースいくつ分）
-set tabstop=2
-" 行頭でのTab文字の表示幅
+
+" ファイル変更中に他のファイルを表示可能にする
+set hidden
+
+" コマンドラインモードで保存する履歴数を設定する
+set history=1000
+
+" 検索結果をハイライト表示する
+set hlsearch
+
+" 大文字と小文字を区別せず検索する
+set ignorecase
+
+" インクリメンタルサーチを有効にする
+set incsearch
+
+" ステータスバーを常に表示する
+set laststatus=2
+
+" 不可視文字を表示する
+set list
+
+" 不可視文字の表示方法を設定する
+set listchars=eol:¬
+
+" マウスを有効にする
+set mouse=a
+
+" ファイル上書き時にバックアップをとらない
+set nobackup
+set nowritebackup
+
+" スワップファイルを作成しない
+set noswapfile
+
+" 行番号を表示する
+set number
+
+" ルーラーを表示する
+set ruler
+
+" カーソル行の上下へのオフセットを設定する
+set scrolloff=4
+
+" インデントでずれる幅を設定する
 set shiftwidth=2
 
+" 入力中のコマンドを表示する
+set showcmd
 
-" 検索系
-" 検索文字列が小文字の場合は大文字小文字を区別なく検索する
-set ignorecase
+" 対応するカッコを強調表示する
+set showmatch
+
+" タブバーを常に表示する
+set showtabline=2
+
 " 検索文字列に大文字が含まれている場合は区別して検索する
 set smartcase
-" 検索文字列入力時に順次対象文字列にヒットさせる
-set incsearch
-" 検索時に最後まで行ったら最初に戻る
+
+" 改行入力行の末尾にあわせてインデントを増減する
+set smartindent
+
+" コンテキストに応じたタブの処理を行なう
+set smarttab
+
+" タブやバックスペースで処理するスペースの数を設定する
+set softtabstop=2
+
+" 新しいウィンドウを下/右に開く
+set splitbelow
+set splitright
+
+" タブ幅を設定する
+set tabstop=2
+
+" 編集中のファイル名を表示する
+set title
+
+" ビープを無効にする
+set visualbell t_vb=
+
+" 行頭・行末の左右移動で行を移動する
+set whichwrap=b,s,h,l,<,>,[,]
+
+" コマンドラインモードでの補完を有効にする
+set wildmenu
+
+" コマンドラインモードでの補完方法を設定する
+set wildmode=list:longest,full
+
+" 行を折り返す
+set wrap
+
+" 検索時に最後まで移動したら最初に戻る
 set wrapscan
-" 検索語をハイライト表示
-set hlsearch
-" ESC連打でハイライト解除
-nmap <Esc><Esc> :nohlsearch<CR><Esc>

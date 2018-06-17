@@ -16,9 +16,7 @@ for f in .??*; do
 
     ln -snfv ~/dotfiles/"$f" ~/
 done
-
-[ -e ~/.gitconfig.local ] || cp ~/dotfiles/.gitconfig.local.template ~/.gitconfig.local
-
+ln -s ~/dotfiles/.vim ~/.vim
 
 cat << END
 
